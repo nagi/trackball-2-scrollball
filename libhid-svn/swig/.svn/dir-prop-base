@@ -1,0 +1,16 @@
+K 10
+svn:ignore
+V 75
+hid.py
+.deps
+.libs
+Makefile.in
+*.c
+*.lo
+*.loT
+*.la
+stamp-h1
+Makefile
+*.pyc
+
+END

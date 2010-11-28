@@ -1,0 +1,16 @@
+K 10
+svn:ignore
+V 100
+.deps
+.libs
+Makefile
+Makefile.in
+*.lo
+*.loT
+*.la
+config.c
+libhid-config
+libhid-detach-device
+.*.swp
+
+END
