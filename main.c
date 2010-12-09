@@ -22,20 +22,11 @@ publish any hardware using these IDs! This is for demonstration only!
 
 uchar reportBuffer[5];
 
-	int mouseinf;
-	int deltax;
-	int deltay;
-	int posx;
-	int posy;
-	int leftbuttonpressed;
-	int middlebuttonpressed;
-	int rightbuttonpressed;
-	uint8_t i,dapack[3];
+uint8_t i,dapack[3];
 
 
 int main(void)
 {
-	inInitialize();
 	outInitialize();
 	usbInitialize();
 
@@ -56,8 +47,6 @@ int main(void)
 	for(;;){ 
 		wdt_reset();
 		usbPoll();
-		getInput();
-		//grabbit();
 		if(usbInterruptIsReady()){
 			wdt_reset();
 
@@ -97,31 +86,9 @@ int init_mouse(void) {
 	//read_packet(); //Ack
 	//send_packet(0x64); //200 smaples a second
 	send_packet(0xf0); //Set remote mode
-	ack = read_packet(); //Ack
-	DBG1(0x0A,&ack,1);
-	return 1;
+	read_packet(); //Ack
 }
 /*
-int ps2Initialize(void)
-{
-	DBG1(0x0A,0,0);
-	BATcode=Read_ps2data();
-	if(BATcode!=0xAA)return 0;		// The mouse is defect
-	MouseID=Read_ps2data();       // Receive MouseID (Should be 0x00, standard mouse)
-//Write_ps2data(0xEA);		      // Set stream mode
-//	if(Read_ps2data()!=0xFA)      // Stream mode not supported on this mouse (like my Compaq mouse)
-//	{
-		Write_ps2data(0xF0);  // Set remote mode
-		ack = Read_ps2data();       // Ignore acknowledge
-		mode=1;
-//	}
-	DBG1(0x0A,&BATcode,1);
-	DBG1(0x0A,&MouseID,1);
-	DBG1(0x0A,&ack,1);
-	DBG1(0x0A,&mode,1);
-	return 1;
-}
-
 void grabbit()
 {
 	DBG1(0x0B,0,1);

@@ -14,10 +14,9 @@ FUSE_L  = 0x90
 AVRDUDE = avrdude -c stk500 -p m8 -P /dev/ttyUSB7 # edit this line for your programmer
 
 CFLAGS  = -Iusbdrv -I. -DDEBUG_LEVEL=2
-OBJECTS = usbdrv/usbdrv.o usbdrv/usbdrvasm.o usbdrv/oddebug.o pstwo.o portIn.o portOut.o usbOut.o usbIn.o main.o
+OBJECTS = usbdrv/usbdrv.o usbdrv/usbdrvasm.o usbdrv/oddebug.o pstwo.o portOut.o usbOut.o usbIn.o main.o
 
-#COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
-COMPILE = avr-gcc -Wall -O0 -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
+COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 
 ##############################################################################
 # Fuse values for particular devices
