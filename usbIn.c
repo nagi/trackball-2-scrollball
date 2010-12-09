@@ -10,7 +10,6 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
     /* The following requests are never used. But since they are required by
      * the specification, we implement them in this example.
      */
-    DBG1(0x66,data,8);
     if((rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_CLASS){    /* class request type */
         if(rq->bRequest == USBRQ_HID_GET_REPORT){  /* wValue: ReportType (highbyte), ReportID (lowbyte) */
             /* we only have one report type, so don't look at wValue */
@@ -22,22 +21,10 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
         }else if(rq->bRequest == USBRQ_HID_SET_IDLE){
             idleRate = rq->wValue.bytes[1];
         }else if(rq->bRequest == USBRQ_SET_CONFIGURATION){
-            // No need to do anything - we only have one meaning for the date which will follow.
+            DBG1(0x67,data,8);
         }
     }else{
         /* no vendor specific requests implemented */
     }
-    return USB_NO_MSG;   /* default for not implemented requests: return no data back to host */
-}
-
-uchar usbFunctionRead(uchar *data, uchar len)
-{
-    // No need to do anything - we only have one meaning for the date which will follow.
-    return len;
-}
-
-uchar usbFunctionWrite(uchar *data, uchar len)
-{
-    setLights(*data);
-    return 1; // Return OK to driver
+    return 0;   /* default for not implemented requests: return no data back to host */
 }

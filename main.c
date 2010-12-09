@@ -20,12 +20,8 @@ publish any hardware using these IDs! This is for demonstration only!
 
 #include "common.h"
 
-uchar reportBuffer[3];
+uchar reportBuffer[5];
 
-	int BATcode;
-	int MouseID;
-	int mode=0;
-	int ack;
 	int mouseinf;
 	int deltax;
 	int deltay;
@@ -81,6 +77,8 @@ int main(void)
 }
 
 int init_mouse(void) {
+	uint8_t ack;
+
 	DBG1(0x0A,0,0);
 	send_packet(0xff);
 	read_packet(); //Ack
