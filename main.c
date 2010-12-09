@@ -34,6 +34,7 @@ uchar reportBuffer[3];
 	int leftbuttonpressed;
 	int middlebuttonpressed;
 	int rightbuttonpressed;
+	uint8_t i,dapack[3];
 
 
 int main(void)
@@ -43,10 +44,9 @@ int main(void)
 	usbInitialize();
 
 	setLights(0x00); 
-  //ps2_Reset();
 
 	wdt_reset();
-	if(ps2Initialize())
+	if(init_mouse())
 	{
 		setLights(0x01);
 		DBG1(0x01,0,0);
@@ -61,8 +61,17 @@ int main(void)
 		wdt_reset();
 		usbPoll();
 		getInput();
-		grabbit();
+		//grabbit();
 		if(usbInterruptIsReady()){
+			wdt_reset();
+
+			send_packet(0xeb);
+			read_packet(); //Ack
+
+			for(i=0;i<3;i++){
+				dapack[i]=read_packet();
+			}
+			DBG1(0xDD,dapack,3);
 			// called after every poll of the interrupt endpoint
 			// This is a push to the host
 			usbSetInterrupt((void *)&reportBuffer, sizeof(reportBuffer));
@@ -71,6 +80,30 @@ int main(void)
 	return 0;
 }
 
+int init_mouse(void) {
+	DBG1(0x0A,0,0);
+	send_packet(0xff);
+	read_packet(); //Ack
+	read_packet(); //Bat
+	read_packet(); //dev ID
+	////
+	send_packet(0xf4); //Enable Data reporting
+	read_packet();	// Ack
+	////
+	//send_packet(0xe8); //Set Resolution
+	//read_packet(); //Ack
+	//send_packet(0x01); //8counts/mm
+	//read_packet(); //Ack
+	////
+	//send_packet(0xf3); //SetSample rate
+	//read_packet(); //Ack
+	//send_packet(0x64); //200 smaples a second
+	send_packet(0xf0); //Set remote mode
+	ack = read_packet(); //Ack
+	DBG1(0x0A,&ack,1);
+	return 1;
+}
+/*
 int ps2Initialize(void)
 {
 	DBG1(0x0A,0,0);
@@ -118,3 +151,5 @@ void grabbit()
 		else rightbuttonpressed=0;
 	}
 }
+*/
+
