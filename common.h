@@ -7,14 +7,17 @@
 #include "usbdrv.h"
 #include "oddebug.h"        /* This is also an example for using debug macros */
 
+#include "ps2.h"
+#include "ps2mouse.h"
+
 /* Carfull if you change these. inInitialize() assumes the button port is used for buttons exclusively, and that the joystick port uses the top four pins. */
-#define JOY_PORT   PORTD
-#define JOY_DDR    DDRD
-#define JOY_IN     PIND
-#define JUP     PIND4
-#define JDOWN   PIND5
-#define JLEFT   PIND6
-#define JRIGHT  PIND7
+//	#define JOY_PORT   PORTD
+//	#define JOY_DDR    DDRD
+//	#define JOY_IN     PIND
+//	#define JUP     PIND4
+//	#define JDOWN   PIND5
+//	#define JLEFT   PIND6
+//	#define JRIGHT  PIND7
 
 #define BTN_PORT   PORTC
 #define BTN_IN     PINC

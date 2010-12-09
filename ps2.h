@@ -24,15 +24,15 @@
 #define LOOP_UNTIL_BIT_IS_CLEAR(sfr, bit)   do {asm volatile ("nop"::);} while (BIT_IS_SET(sfr, bit)) 
 
 /* Select ports for the CLK and DATA lines here **************/
-#define CLKPORT PORTA  // port for CLK line
-#define DATAPORT PORTA // port for DATA line
-#define CLK	0		   // pin on CLKPORT for CLK line
-#define DATA 1	       // pin on DATAPORT for DATA line
+#define CLKPORT PORTD  // port for CLK line
+#define DATAPORT PORTD // port for DATA line
+#define CLK	4		   // pin on CLKPORT for CLK line
+#define DATA 5	       // pin on DATAPORT for DATA line
 
-#define CLKDDR DDRA
-#define CLKPIN PINA
-#define DATADDR	DDRA
-#define DATAPIN	PINA
+#define CLKDDR DDRD
+#define CLKPIN PIND
+#define DATADDR	DDRD
+#define DATAPIN	PIND
 /*******************************************/
 
 void delay(long microseconds);   // Function for internal usage

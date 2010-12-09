@@ -112,10 +112,10 @@ void Write_ps2data(int data)
 	CBI(CLKPORT,CLK);        // Make CLK open
 	
 	CBI(CLKPORT,CLK);	       // Cancel the mouse (if transmitting)
-	delay(100);
+	delay(400);
 	SBI(DATADDR,DATA);       // Make DATA output
 	CBI(DATAPORT,DATA);      // Generate startbit
-	delay(100);
+	delay(400);
 	CBI(CLKDDR,CLK);         // Make CLK input
 	CBI(CLKPORT,CLK);        // Make CLK open
 	

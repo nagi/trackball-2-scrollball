@@ -1,3 +1,24 @@
+PS2 
+   1   data
+   2   (reserved)
+   3   gnd
+   4   +5v
+   5   clock
+   6   (reserved)
+
+    /-------\
+   /       5 \
+  |     []    |
+  |4         3|
+  |           |
+   \       1 /
+    \-------/
+
+1 is RED     = DATA
+3 is ORANGE  = GND
+4 is BLACK!  = +5
+5 is BROWN   = CLK
+
 When programming for verullum board... (from then HIDKeys Makefile)
 # 
 # Fuse high byte:
