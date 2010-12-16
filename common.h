@@ -38,16 +38,11 @@
 #define L5      PB5
 
 //====================================================================
-extern uchar reportBuffer[5];
+extern uint8_t reportBuffer[5];
+extern uint8_t i,ps2data[3];
 //====================================================================
-extern usbMsgLen_t usbFunctionSetup(uchar data[8]);
-//====================================================================
-extern void inInitialize(void);
-extern void getInput(void);
-extern void testFillReport(void);
-//====================================================================
+extern void initTrackBall(void);
 extern void outInitialize(void);
 extern void setLights(uchar lights);
 //====================================================================
 extern void usbInitialize(void);
-extern void sendOutput(void);

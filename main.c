@@ -20,9 +20,8 @@ publish any hardware using these IDs! This is for demonstration only!
 
 #include "common.h"
 
-uchar reportBuffer[5];
-
-uint8_t i,dapack[3];
+uint8_t reportBuffer[5];
+uint8_t i,ps2data[3];
 
 
 int main(void)
@@ -32,31 +31,15 @@ int main(void)
 
 	setLights(0x00); 
 
-	wdt_reset();
-	if(init_mouse())
-	{
-		setLights(0x01);
-		DBG1(0x01,0,0);
-	}
-	else
-	{
-		setLights(0x02);
-		DBG1(0x02,0,0);
-	}
+	initTrackBall();
 
 	for(;;){ 
 		wdt_reset();
 		usbPoll();
 		if(usbInterruptIsReady()){
 			wdt_reset();
-
-			send_packet(0xeb);
-			read_packet(); //Ack
-
-			for(i=0;i<3;i++){
-				dapack[i]=read_packet();
-			}
-			DBG1(0xDD,dapack,3);
+			readTrackBall();
+			fillReportBuffer();
 			// called after every poll of the interrupt endpoint
 			// This is a push to the host
 			usbSetInterrupt((void *)&reportBuffer, sizeof(reportBuffer));
@@ -64,57 +47,3 @@ int main(void)
 	}
 	return 0;
 }
-
-int init_mouse(void) {
-	uint8_t ack;
-
-	DBG1(0x0A,0,0);
-	send_packet(0xff);
-	read_packet(); //Ack
-	read_packet(); //Bat
-	read_packet(); //dev ID
-	////
-	send_packet(0xf4); //Enable Data reporting
-	read_packet();	// Ack
-	////
-	//send_packet(0xe8); //Set Resolution
-	//read_packet(); //Ack
-	//send_packet(0x01); //8counts/mm
-	//read_packet(); //Ack
-	////
-	//send_packet(0xf3); //SetSample rate
-	//read_packet(); //Ack
-	//send_packet(0x64); //200 smaples a second
-	send_packet(0xf0); //Set remote mode
-	read_packet(); //Ack
-}
-/*
-void grabbit()
-{
-	DBG1(0x0B,0,1);
-	ack=0;
-	if(mode==1)       // If remote mode
-	{
-		Write_ps2data(0xEB);    // Read data
-		ack=Read_ps2data();
-	}
-	DBG1(0x0B,&ack,1);
-	if((ack==0xFA)||(mode==0))  // If mouse send acknowledge or is in stream mode
-	{
-		mouseinf=Read_ps2data();
-		deltax=Read_ps2data();
-		deltay=Read_ps2data();
-		if(mouseinf&0x10)deltax-=0x100;	// Add sign bit to deltax
-		if(mouseinf&0x20)deltay-=0x100;	// Add sign bit to deltay
-		posx+=deltax;   // Absolute X position
-		posy+=deltay;   // Absolute Y position
-		if(mouseinf&0x01)leftbuttonpressed=1;         // Get leftbutton status
-		else leftbuttonpressed=0;
-		if(mouseinf&0x04)middlebuttonpressed=1;       // Get middlebutton status
-		else middlebuttonpressed=0;
-		if(mouseinf&0x02)rightbuttonpressed=1;        // Get rightbutton status
-		else rightbuttonpressed=0;
-	}
-}
-*/
-

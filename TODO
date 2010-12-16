@@ -1,4 +1,2 @@
 TODO
-
-* Device just echos input!
-* Test must be run as root because the kernal claims the device when it is connected. Tell kernal not to claim device.
+* Add switch to make trackball a normal trackball.

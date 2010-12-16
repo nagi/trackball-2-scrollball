@@ -1,6 +1,28 @@
 #include "common.h"
-
 /* ----------------------------- USB interface ----------------------------- */
+ // Wheel Mouse - simplified version
+ //
+ // Input report - 5 bytes
+ //
+ //     Byte | D7      D6      D5      D4      D3      D2      D1      D0
+ //    ------+---------------------------------------------------------------------
+ //      0   |  0       0       0    Forward  Back    Middle  Right   Left (Button)
+ //      1   |                             X
+ //      2   |                             Y
+ //      3   |                       Vertical Wheel
+ //      4   |                    Horizontal (Tilt) Wheel
+ //
+ // Feature report - 1 byte
+ //
+ //     Byte | D7      D6      D5      D4   |  D3      D2  |   D1      D0
+ //    ------+------------------------------+--------------+----------------
+ //      0   |  0       0       0       0   |  Horizontal  |    Vertical     
+ //                                             (Resolution multiplier)
+ //
+ // Reference
+ //    Wheel.docx in "Enhanced Wheel Support in Windows Vista" on MS WHDC
+ //    http://www.microsoft.com/whdc/device/input/wheel.mspx
+ //    http://www.microchip.com/forums/tm.aspx?high=&m=391435&mpage=1#391521
 PROGMEM char usbHidReportDescriptor[USB_CFG_HID_REPORT_DESCRIPTOR_LENGTH] = {
     0x05, 0x01,        // USAGE_PAGE (Generic Desktop)
     0x09, 0x02,        // USAGE (Mouse)
